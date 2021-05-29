@@ -1,15 +1,30 @@
+import 'package:ajuda_sus_refactored/models/unidade.dart';
 import 'package:ajuda_sus_refactored/pages/publications/publications_page.dart';
+import 'package:ajuda_sus_refactored/shared/api.dart';
 import 'package:flutter/material.dart';
 
-class CardUnidade extends StatelessWidget {
+class CardUnidade extends StatefulWidget {
+  final Api api;
+  final Unidade unidade;
+  const CardUnidade({this.unidade, this.api});
+
+  @override
+  _CardUnidadeState createState() => _CardUnidadeState();
+}
+
+class _CardUnidadeState extends State<CardUnidade> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        var result = await widget.api.getPub(widget.unidade.idUnidade);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PublicationsPage(),
+            builder: (context) => PublicationsPage(
+              pubs: result,
+              nomeUnidade: widget.unidade.nome,
+            ),
           ),
         );
       },
@@ -21,7 +36,7 @@ class CardUnidade extends StatelessWidget {
               // titulo da unidade
               Container(
                 child: Text(
-                  "UPA 24hrs",
+                  widget.unidade.nome,
                   style: TextStyle(
                     fontSize: 19,
                     color: Color(0xff4FB7D4),
@@ -50,7 +65,12 @@ class CardUnidade extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "Rua São Pedro, Fátima - CEP: 45.600.025",
+                      widget.unidade.rua +
+                          ', ' +
+                          widget.unidade.bairro +
+                          ' - ' +
+                          widget.unidade.cep,
+                      //"Rua São Pedro, Fátima - CEP: 45.600.025",
                       style: TextStyle(
                           fontSize: 16, color: Color.fromRGBO(0, 0, 0, 0.7)),
                       textAlign: TextAlign.center,
@@ -76,7 +96,7 @@ class CardUnidade extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "(73) 3212-5687",
+                      widget.unidade.telefone,
                       style: TextStyle(
                           fontSize: 16, color: Color.fromRGBO(0, 0, 0, 0.7)),
                       textAlign: TextAlign.center,
@@ -106,7 +126,7 @@ class CardUnidade extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      "Segunda à Sexta das 07:00 às 17:30 Sábado das 07:00 às 12:00",
+                      widget.unidade.hrFuncionamento,
                       style: TextStyle(
                         fontSize: 16,
                         color: Color.fromRGBO(0, 0, 0, 0.75),

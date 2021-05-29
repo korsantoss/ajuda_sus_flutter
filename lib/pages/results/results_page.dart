@@ -1,9 +1,13 @@
+import 'package:ajuda_sus_refactored/shared/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:ajuda_sus_refactored/models/unidade.dart';
 import 'card_unid_model.dart';
 
 class ResultsPage extends StatefulWidget {
+  final Api api;
+  final List<Unidade> unidades;
+  const ResultsPage({this.unidades, this.api});
   @override
   _ResultsPageState createState() => _ResultsPageState();
 }
@@ -42,16 +46,16 @@ class _ResultsPageState extends State<ResultsPage> {
               height: 10,
             ),
             Expanded(
-              child: ListView(
+              child: ListView.builder(
+                itemCount: widget.unidades.length,
                 padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                children: [
-                  CardUnidade(),
-                  CardUnidade(),
-                  CardUnidade(),
-                  CardUnidade(),
-                  CardUnidade(),
-                  CardUnidade(),
-                ],
+                itemBuilder: (context, index) {
+                  print(widget.api);
+                  return CardUnidade(
+                    unidade: widget.unidades[index],
+                    api: widget.api,
+                  );
+                },
               ),
             )
           ],

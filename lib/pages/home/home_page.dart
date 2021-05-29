@@ -1,4 +1,5 @@
 import 'package:ajuda_sus_refactored/pages/results/results_page.dart';
+import 'package:ajuda_sus_refactored/shared/api.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +9,43 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+class Bairro {
+  final String bairro;
+
+  Bairro({
+    this.bairro,
+  });
+
+  @override
+  String toString() {
+    String result = "${bairro.toString()}";
+    return result;
+  }
+
+  factory Bairro.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      return Bairro(bairro: json['bairro']);
+    } else {
+      return Bairro(bairro: '');
+    }
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
+  Api api = Api();
+  List<Bairro> bairroList;
+
+  void initState() {
+    getBairro();
+    super.initState();
+  }
+
+  getBairro() async {
+    bairroList = await api.getBairro();
+
+    setState(() {});
+  }
+
   String selectUF = '';
   String selectCidade = '';
   String selectBairro = '';
@@ -70,7 +107,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelStyle:
                           TextStyle(fontSize: 20, color: Color(0xff4FB7D4)),
                     ),
-                    items: ["AC", "AM", "AM", 'TO'],
+                    items: ["BA"],
+                    enabled: false,
                     label: "UF",
                     // hint: "country in menu mode",
                     // popupItemDisabled: (String s) => s.startsWith('I'),
@@ -80,8 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         print(selectUF);
                       });
                     },
-                    selectedItem:
-                        selectUF == '' ? "Selecione o estado" : selectUF,
+                    selectedItem: selectUF == '' ? "BA" : selectUF,
                   ),
                   Text(selectUF),
                 ],
@@ -116,10 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     items: [
                       "Itabuna",
-                      "São Paulo",
-                      "Rio de Janeiro",
-                      'Belo Horizonte'
                     ],
+                    enabled: false,
                     label: "Cidade",
                     hint: "country in menu mode",
                     // popupItemDisabled: (String s) => s.startsWith('I'),
@@ -129,11 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         print(selectUF);
                       });
                     },
-                    selectedItem: selectCidade == ''
-                        ? "Selecione a cidade"
-                        : selectCidade,
+                    selectedItem: selectCidade == '' ? "Itabuna" : selectCidade,
                   ),
-                  Text(selectCidade),
                 ],
               ),
             ),
@@ -164,21 +196,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       labelStyle:
                           TextStyle(fontSize: 20, color: Color(0xff4FB7D4)),
                     ),
-                    items: ["São Paulo", "São Caetano", "Osasco", 'Brasília'],
+                    items: bairroList.map((e) => e.bairro).toList(),
                     label: "Bairro",
                     hint: "country in menu mode",
                     // popupItemDisabled: (String s) => s.startsWith('I'),
                     onChanged: (data) {
                       setState(() {
                         selectBairro = data;
-                        print(selectBairro);
                       });
                     },
                     selectedItem: selectBairro == ''
                         ? "Selecione o bairro"
                         : selectBairro,
                   ),
-                  Text(selectBairro),
 
                   // button
                   SizedBox(
@@ -197,11 +227,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           fontSize: 16.5,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        print(api);
+                        var result = await api.getUnidade(selectBairro);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ResultsPage(),
+                            builder: (context) => ResultsPage(
+                              unidades: result,
+                              api: api,
+                            ),
                           ),
                         );
                       },

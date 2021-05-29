@@ -1,9 +1,13 @@
+import 'package:ajuda_sus_refactored/models/publications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'card_publications.dart';
 
 class PublicationsPage extends StatefulWidget {
+  final String nomeUnidade;
+  final List<PublicationModel> pubs;
+  const PublicationsPage({this.pubs, this.nomeUnidade});
   @override
   _PublicationsPageState createState() => _PublicationsPageState();
 }
@@ -49,7 +53,7 @@ class _PublicationsPageState extends State<PublicationsPage> {
               width: double.infinity,
               height: 30,
               child: Text(
-                "UPA 24hrs",
+                widget.nomeUnidade,
                 style: TextStyle(color: Color(0xff4FB7D4), fontSize: 21),
               ),
             ),
@@ -57,20 +61,18 @@ class _PublicationsPageState extends State<PublicationsPage> {
               height: 10,
             ),
             Expanded(
-              child: ListView(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                children: [
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                  CardPublications(),
-                ],
-              ),
+              child: widget.pubs.isEmpty == true
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 30),
+                      child: Text("Nenhuma Publicação Encontrada",
+                          style: TextStyle(color: Colors.black, fontSize: 18)),
+                    )
+                  : ListView.builder(
+                      itemCount: widget.pubs.length,
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      itemBuilder: (context, index) {
+                        return CardPublications(pub: widget.pubs[index]);
+                      }),
             )
           ],
         ),
