@@ -1,16 +1,15 @@
-# ajuda_sus_refactored
 
-A new Flutter project.
+# AjudaSUS - Flutter
 
-## Getting Started
+Versão mobile do AjudaSUS, Projeto criado com intuito de reunir informações sobre unidades de saúde, além de informar notícias de um posto especifico em tempo real. Feito em resposta ao novo coronavírus, a fim de procurar maneiras de combater a pandemia
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Setup
+É necessário ter instalado:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+ - Flutter (https://flutter.dev/docs/get-started/install)
+ - VSCode / Android Studio ou qualquer outra IDE/Editor que possa rodar.
+ - Back-End do AjudaSUS (https://github.com/korsantoss/ajuda_sus_backend)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Configurando
+Após rodar o back-end, baixe as dependências do flutter (no VSCode pode ser feito ao salvar o arquivo pubspec.yaml) e rode o aplicativo no device desejado (emulador android, celular ou em um navegador)
