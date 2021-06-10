@@ -15,6 +15,7 @@ class CardUnidade extends StatefulWidget {
 class _CardUnidadeState extends State<CardUnidade> {
   @override
   Widget build(BuildContext context) {
+    print(widget.unidade.bairro);
     return InkWell(
       onTap: () async {
         var result = await widget.api.getPub(widget.unidade.idUnidade);
@@ -65,11 +66,7 @@ class _CardUnidadeState extends State<CardUnidade> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      widget.unidade.rua +
-                          ', ' +
-                          widget.unidade.bairro +
-                          ' - ' +
-                          widget.unidade.cep,
+                      widget.unidade.rua + ', ' + widget.unidade.bairro,
                       //"Rua São Pedro, Fátima - CEP: 45.600.025",
                       style: TextStyle(
                           fontSize: 16, color: Color.fromRGBO(0, 0, 0, 0.7)),

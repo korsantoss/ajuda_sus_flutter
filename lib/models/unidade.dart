@@ -5,7 +5,7 @@ class Unidade {
   final String bairro;
   final String cidade;
   final int numero;
-  final String cep;
+  //final String cep;
   final String uf;
   final String telefone;
   final String hrFuncionamento;
@@ -17,7 +17,7 @@ class Unidade {
     this.bairro,
     this.cidade,
     this.numero,
-    this.cep,
+    //this.cep,
     this.uf,
     this.telefone,
     this.hrFuncionamento,
@@ -32,7 +32,7 @@ class Unidade {
           bairro: json['bairro'],
           cidade: json['cidade'],
           numero: json['numero_endereco'],
-          cep: json['cep'],
+          //cep: json['cep'],
           uf: json['uf'],
           telefone: json['telefone'],
           hrFuncionamento: json['hr_funcionamento']);

@@ -26,20 +26,24 @@ class Api {
   }
 
   Future getUnidade(String unidade) async {
+    print("1");
     Response result;
-
+    print("2");
     try {
-      result = await client.get('/unidades/$unidade');
+      print(client);
+      result = await client.get('/unidades/' + unidade);
+      print("result got!");
     } catch (e) {
+      print("ERROR!");
       print(e.message);
     }
 
     List data = result.data;
-
+    print("3");
     List<Unidade> unidadeList;
-
+    print("4");
     unidadeList = data.map((unidade) => Unidade.fromJson(unidade)).toList();
-
+    print("5");
     return unidadeList;
   }
 
